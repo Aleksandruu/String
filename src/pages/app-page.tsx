@@ -135,17 +135,17 @@ export function AppPage() {
         );
         setCanvases((previous) =>
           previous.map((c) =>
-            c.id === canvasId ? { ...c, title: title.trim() || "Untitled Canvas" } : c,
+            c.id === canvasId
+              ? { ...c, title: title.trim() || "Untitled Canvas" }
+              : c,
           ),
         );
       }}
       onDeleteCanvas={async (canvasId) => {
         const now = new Date().toISOString();
-        await updateSingleRow<CanvasRecord>(
-          "canvases",
-          { deleted_at: now },
-          [{ column: "id", op: "eq", value: canvasId }],
-        );
+        await updateSingleRow<CanvasRecord>("canvases", { deleted_at: now }, [
+          { column: "id", op: "eq", value: canvasId },
+        ]);
         setCanvases((previous) => previous.filter((c) => c.id !== canvasId));
         setActiveCanvasId((previous) => {
           if (previous !== canvasId) return previous;
